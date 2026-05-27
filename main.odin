@@ -2,6 +2,15 @@ package main
 import "core:fmt"
 
 main :: proc() {
-	for i := 0; i <= 5; i += 1 do fmt.println("Hello World !")
-	fmt.println(">>", fibonacci(5))
+	when ODIN_OS == .Linux {
+		fmt.println("Welcome Linux User !")
+	}
+	when ODIN_OS == .Darwin {
+		fmt.println("Welcome Rich User !")
+	}
+
+	choice: int = display()
+	switch choice {
+
+	}
 }
