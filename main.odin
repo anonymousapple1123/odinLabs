@@ -9,7 +9,7 @@ main :: proc() {
 		fmt.println("Welcome Rich User !")
 	}
 
-	choice: int = display()
+	choice: int = display_fibonacci_choice()
 	switch choice {
 	case 0:
 		break
