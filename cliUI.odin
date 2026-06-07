@@ -1,9 +1,9 @@
 package main
-import "core:bufio"
+
 import "core:fmt"
-import "core:os"
-display :: proc() -> int {
-	choice: int = 0
+display_fibonacci_choice :: proc() -> int {
+	choice: int = input_num("Input choice for fibonacci number :")
+	//Add choice value user input instead of hard coded.
 	fmt.println("***********************PROGRAM STARTED***********************")
 
 	return choice
