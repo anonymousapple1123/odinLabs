@@ -24,7 +24,7 @@ import "core:strconv"
 // }
 
 input_num :: proc(message: string) -> int {
-	fmt.println(message)
+	fmt.print(message)
 	buf: [256]byte
 	n, err := os.read(os.stdin, buf[:])
 	if err != nil {
