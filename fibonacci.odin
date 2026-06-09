@@ -1,7 +1,7 @@
 package main
 import "core:fmt"
 fibonacci :: proc() -> int {
-	num: int = 0
+	num: int = input_num("Upper linmit of fibonacci: ")
 	fmt.printf("nth fibonacci number : n = ")
 
 	a, b, c: int = 0, 1, 0
