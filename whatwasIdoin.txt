@@ -1,1 +1,2 @@
-I was testing io for my program in input.odin
+1. I was testing io for my program in input.odin
+2. Next thing I want to do is write script to compile and test the program
