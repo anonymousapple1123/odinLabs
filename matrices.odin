@@ -1,10 +1,6 @@
 package main
 import "core:fmt"
 
-// main :: proc() {
-// 	array()
-// }
-
 array :: proc() {
 	//numbers := [5]int{1, 3, 5, 7, 3}
 	//numbers :: [5]int{1, 3, 5, 7, 3} // :: makes Immutable

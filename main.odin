@@ -3,7 +3,7 @@ import "core:fmt"
 
 
 main :: proc() {
-	array()
+	gui_1()
 }
 // main :: proc() {
 // 	when ODIN_OS == .Linux {
