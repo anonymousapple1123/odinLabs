@@ -30,13 +30,13 @@ draw_animation :: proc(a: Animation, pos: rl.Vector2, flip: bool) {
 		source.width = -source.width
 	}
 
-	draw_player_dest := rl.Rectangle {
+	dest := rl.Rectangle {
 		x      = pos.x,
 		y      = pos.y,
-		width  = width * 0.1 / f32(a.num_frames),
-		height = height * 0.1 / 2,
+		width  = width / f32(a.num_frames),
+		height = height / 2,
 	}
-	rl.DrawTexturePro(a.texture, source, draw_player_dest, 0, 0, rl.WHITE)
+	rl.DrawTexturePro(a.texture, source, dest, {dest.width/2, dest.height}, 0, rl.WHITE)
 }
 
 update_animation :: proc(a: ^Animation) {
@@ -52,10 +52,15 @@ update_animation :: proc(a: ^Animation) {
 
 }
 
+PixelWindowHeight :: 180
 flappy_flappy :: proc() {
 
 	rl.InitWindow(1280, 720, "First Window")
-	player_pos := rl.Vector2{640, 320}
+	rl.SetWindowPosition(100,100)
+	rl.SetWindowState({.WINDOW_RESIZABLE})
+	rl.SetTargetFPS(100)
+
+	player_pos : rl.Vector2
 	player_vel: rl.Vector2
 	player_touching_ground: bool
 	player_flip: bool
@@ -75,7 +80,7 @@ flappy_flappy :: proc() {
 	}
 
 	current_anim := player_idle
-
+	platform := rl.Rectangle{-100,200,900,100}
 	for !rl.WindowShouldClose() {
 		//debug details --
 		fmt.print("/n Frame rate : ", rl.GetFrameTime())
@@ -115,15 +120,37 @@ flappy_flappy :: proc() {
 
 		//keep the player in the screen space of the window
 		//checks if the player is on the ground
-		if player_pos.y > f32(rl.GetScreenHeight() - 100) {
+		// if player_pos.y > f32(rl.GetScreenHeight() - 180) {
 
-			player_pos.y = f32(rl.GetScreenHeight() - 100)
+		// 	player_pos.y = f32(rl.GetScreenHeight() - 180)
+		// 	player_touching_ground = true
+
+		// }
+
+		player_feet_collider := rl.Rectangle{
+			player_pos.x - 80,
+			player_pos.y - 200,
+			80,
+			40,
+		}
+		player_touching_ground = false
+		if rl.CheckCollisionRecs(player_feet_collider,platform) && player_vel.y >0{
+			player_vel.y = 0
+			player_pos.y = platform.y
 			player_touching_ground = true
-
 		}
 		update_animation(&current_anim)
+		screen_height := f32(rl.GetScreenHeight())
+		camera := rl.Camera2D{
+			zoom = screen_height/(PixelWindowHeight*20),
+			offset = {f32(rl.GetScreenWidth()-PixelWindowHeight), f32(rl.GetScreenHeight())},
+			target = player_pos
+		}
+		rl.BeginMode2D(camera)
 		draw_animation(current_anim, player_pos, player_flip)
-
+		rl.DrawRectangleRec(platform, rl.RED)
+		rl.DrawRectangleRec(player_feet_collider, rl.BLUE) //DEBUG CODE
+		rl.EndMode2D();
 		rl.EndDrawing()
 	}
 	rl.CloseWindow()
