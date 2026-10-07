@@ -42,7 +42,7 @@ draw_animation :: proc(a: Animation, pos: rl.Vector2, flip: bool) {
 update_animation :: proc(a: ^Animation) {
 	a.frame_timer += rl.GetFrameTime()
 
-	for a.frame_timer > a.frame_length {
+	for a.frame_timer >= a.frame_length {
 		a.current_frame += 1
 		a.frame_timer -= a.frame_length
 		if a.current_frame == a.num_frames {
@@ -83,7 +83,7 @@ flappy_flappy :: proc() {
 	platform := rl.Rectangle{-100,200,900,100}
 	for !rl.WindowShouldClose() {
 		//debug details --
-		fmt.print("/n Frame rate : ", rl.GetFrameTime())
+		fmt.print("\n Frame rate : ", rl.GetFrameTime())
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BEIGE)
@@ -128,15 +128,15 @@ flappy_flappy :: proc() {
 		// }
 
 		player_feet_collider := rl.Rectangle{
-			player_pos.x - 80,
-			player_pos.y - 200,
+			player_pos.x - 40,
+			player_pos.y - 5,
 			80,
-			40,
+			10,
 		}
 		player_touching_ground = false
 		if rl.CheckCollisionRecs(player_feet_collider,platform) && player_vel.y >0{
-			player_vel.y = 0
 			player_pos.y = platform.y
+			player_vel.y = 0
 			player_touching_ground = true
 		}
 		update_animation(&current_anim)
